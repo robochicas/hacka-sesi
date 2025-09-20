@@ -23,7 +23,7 @@ services:
   db:
     image: postgres:15
     container_name: hacka_db
-    environment:
+    env_file:
       - .env
     ports:
       - "5432:5432"
@@ -36,7 +36,7 @@ services:
     restart: always
     ports:
       - "5678:5678"
-    environment:
+    env_file:
       - .env
     depends_on:
       - db
