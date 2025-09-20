@@ -1,0 +1,40 @@
+services:
+  evolution-api:
+    container_name: evolution_api
+    image: atendai/evolution-api:v2.1.1
+    restart: always
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    volumes:
+      - evolution_instances:/evolution/instances
+  redis:
+    container_name: evolution_redis
+    image: redis:latest
+    restart: always
+    command: >
+      redis-server --port 6379 --appendonly yes
+    volumes:
+      - evolution_redis:/data
+    expose:
+      - "6379"
+
+  db:
+    image: postgres:15
+    container_name: hacka_db
+    environment:
+      POSTGRES_USER: strategie
+      POSTGRES_PASSWORD: strategie123
+      POSTGRES_DB: strategie
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+
+volumes:
+  evolution_instances:
+  db_data:
+  evolution_redis:
+
